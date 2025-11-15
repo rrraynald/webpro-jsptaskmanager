@@ -1,0 +1,6 @@
+com/raynald/model/Task.class
+com/raynald/dao/ProjectDAO.class
+com/raynald/controller/ProjectServlet.class
+com/raynald/model/Project.class
+com/raynald/dao/TaskDAO.class
+com/raynald/util/DBUtil.class
