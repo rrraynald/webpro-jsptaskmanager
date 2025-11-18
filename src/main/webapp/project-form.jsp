@@ -28,7 +28,7 @@
         </h1>
     </header>
 
-    <main>
+<%--     <main>
         <c:if test="${project != null}">
             <form action="editProject" method="POST">
                 <input type="hidden" name="id" value="<c:out value='${project.id}' />" />
@@ -36,6 +36,23 @@
         <c:if test="${project == null}">
             <form action="newProject" method="POST">
         </c:if>
+
+            <label for="name">Project Name:</label>
+            <input type="text" id="name" name="projectName" required 
+                   value="<c:out value='${project.name}' />" />
+            
+            <button type="submit">Save Project</button>
+        </form>
+    </main> --%>
+    
+    <main>
+        <c:set var="actionUrl" value="${project != null ? 'editProject' : 'newProject'}" />
+
+        <form action="${actionUrl}" method="POST">
+            
+            <c:if test="${project != null}">
+                <input type="hidden" name="id" value="<c:out value='${project.id}' />" />
+            </c:if>
 
             <label for="name">Project Name:</label>
             <input type="text" id="name" name="projectName" required 

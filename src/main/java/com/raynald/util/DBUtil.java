@@ -27,4 +27,16 @@ public class DBUtil {
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASS);
     }
+
+    // public static Connection getConnection() throws SQLException {
+    //     System.out.println("--- DBUtil: Attempting to connect to database... ---");
+    //     try {
+    //         Connection conn = DriverManager.getConnection(URL, USER, PASS);
+    //         System.out.println("--- DBUtil: Connection SUCCESSFUL! ---");
+    //         return conn;
+    //     } catch (SQLException e) {
+    //         System.out.println("--- DBUtil: Connection FAILED: " + e.getMessage() + " ---");
+    //         throw e;
+    //     }
+    // }
 }

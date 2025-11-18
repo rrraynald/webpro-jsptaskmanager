@@ -135,10 +135,40 @@ public class ProjectServlet extends HttpServlet {
             throws SQLException, ServletException, IOException {
         List<Project> projectList = projectDAO.getAllProjects();
         request.setAttribute("projectList", projectList);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("dashboard.jsp");
         dispatcher.forward(request, response);
     }
-    
+
+//    private void listProjects(HttpServletRequest request, HttpServletResponse response) 
+//            throws SQLException, ServletException, IOException {
+//        
+//        // Set response type to plain text so we can see exactly what happens
+//        response.setContentType("text/plain");
+//        
+//        try {
+//            // 1. Print a starting message
+//            response.getWriter().println("DEBUG: Starting to fetch projects...");
+//            
+//            // 2. Call the DAO
+//            List<Project> list = projectDAO.getAllProjects();
+//            
+//            // 3. Print the result
+//            if (list.isEmpty()) {
+//                response.getWriter().println("DEBUG: Database connected, but returned 0 projects.");
+//                response.getWriter().println("DEBUG: This means the query 'SELECT * FROM projects' found nothing.");
+//            } else {
+//                response.getWriter().println("DEBUG: SUCCESS! Found " + list.size() + " projects:");
+//                for (Project p : list) {
+//                    response.getWriter().println(" - ID: " + p.getId() + ", Name: " + p.getName());
+//                }
+//            }
+//            
+//        } catch (Exception e) {
+//            // 4. Print any errors
+//            response.getWriter().println("DEBUG: CRITICAL ERROR!");
+//            e.printStackTrace(response.getWriter());
+//        }
+//    }    
     /**
      * Shows the new project form (project-form.jsp)
      */

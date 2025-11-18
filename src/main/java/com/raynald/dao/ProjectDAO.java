@@ -20,30 +20,30 @@ public class ProjectDAO {
      * Fetches all projects from the database.
      * @return A List of Project objects.
      */
-    public List<Project> getAllProjects() {
+     public List<Project> getAllProjects() {
         
-        List<Project> projectList = new ArrayList<>();
-        String sql = "SELECT * FROM projects ORDER BY created_at DESC";
+         List<Project> projectList = new ArrayList<>();
+         String sql = "SELECT * FROM projects ORDER BY created_at DESC";
         
-        try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+         try (Connection conn = DBUtil.getConnection();
+              PreparedStatement stmt = conn.prepareStatement(sql);
+              ResultSet rs = stmt.executeQuery()) {
             
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                Timestamp createdAt = rs.getTimestamp("created_at");
+             while (rs.next()) {
+                 int id = rs.getInt("id");
+                 String name = rs.getString("name");
+                 Timestamp createdAt = rs.getTimestamp("created_at");
                 
-                projectList.add(new Project(id, name, createdAt));
-            }
+                 projectList.add(new Project(id, name, createdAt));
+             }
             
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
         
-        return projectList;
-    }
-
+         return projectList;
+     }
+     
     /**
      * Feature: Create a new Project
      * Inserts a new project into the database.
