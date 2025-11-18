@@ -1,6 +1,5 @@
 package com.raynald.dao;
 
-// Import our Model, Utility, and necessary Java SQL/List classes
 import com.raynald.model.Task;
 import com.raynald.util.DBUtil;
 import java.sql.Connection;
@@ -12,10 +11,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This is the Task Data Access Object (DAO).
- * It handles all database operations for the Task model.
- */
 public class TaskDAO {
 
     /**
@@ -27,17 +22,14 @@ public class TaskDAO {
     public List<Task> getTasksByProjectId(int projectId) {
         
         List<Task> taskList = new ArrayList<>();
-        // We select only tasks matching the project_id
         String sql = "SELECT * FROM tasks WHERE project_id = ? ORDER BY created_at DESC";
         
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
-            // Set the first '?' placeholder to the projectId
             stmt.setInt(1, projectId);
             
             try (ResultSet rs = stmt.executeQuery()) {
-                // Loop through all the matching tasks
                 while (rs.next()) {
                     int id = rs.getInt("id");
                     String title = rs.getString("title");
@@ -46,17 +38,14 @@ public class TaskDAO {
                     Date dueDate = rs.getDate("due_date");
                     Timestamp createdAt = rs.getTimestamp("created_at");
                     
-                    // Create a new Task object and add it to our list
                     taskList.add(new Task(id, projectId, title, status, priority, dueDate, createdAt));
                 }
             }
             
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle exceptions
         }
         
-        // Return the list (it will be empty if no tasks are found)
         return taskList;
     }
 
@@ -67,25 +56,21 @@ public class TaskDAO {
      */
     public void createTask(Task task) {
         
-        // SQL query with placeholders for all the data
         String sql = "INSERT INTO tasks (project_id, title, status, priority, due_date) VALUES (?, ?, ?, ?, ?)";
         
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
-            // Bind all the values from the Task object to the query
             stmt.setInt(1, task.getProjectId());
             stmt.setString(2, task.getTitle());
             stmt.setString(3, task.getStatus());
             stmt.setString(4, task.getPriority());
-            stmt.setDate(5, task.getDueDate()); // Use setDate for java.sql.Date
+            stmt.setDate(5, task.getDueDate());
             
-            // Execute the insert query
             stmt.executeUpdate();
             
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle exceptions
         }
     }
 
@@ -96,21 +81,17 @@ public class TaskDAO {
      */
     public void deleteTask(int id) {
         
-        // SQL query to delete a task by its ID
         String sql = "DELETE FROM tasks WHERE id = ?";
         
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
-            // Set the ID for the '?' placeholder
             stmt.setInt(1, id);
             
-            // Execute the query
             stmt.executeUpdate();
             
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle exceptions
         }
     }
 
@@ -160,12 +141,11 @@ public class TaskDAO {
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
-            // Set the parameters for the query
             stmt.setString(1, task.getTitle());
             stmt.setString(2, task.getStatus());
             stmt.setString(3, task.getPriority());
             stmt.setDate(4, task.getDueDate());
-            stmt.setInt(5, task.getId()); // Use ID in the WHERE clause
+            stmt.setInt(5, task.getId());
             
             stmt.executeUpdate();
             

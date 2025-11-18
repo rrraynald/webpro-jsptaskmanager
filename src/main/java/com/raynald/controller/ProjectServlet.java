@@ -1,12 +1,10 @@
 package com.raynald.controller;
 
-// DAO and Model imports
 import com.raynald.dao.ProjectDAO;
 import com.raynald.dao.TaskDAO;
 import com.raynald.model.Project;
 import com.raynald.model.Task;
 
-// Servlet imports
 import jakarta.servlet.ServletException;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,17 +12,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-// Utility imports
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.util.List;
 
-/**
- * Servlet implementation class ProjectServlet
- * This Controller handles all requests for Projects AND Tasks.
- */
-@WebServlet("/") // This servlet handles all requests
+
+@WebServlet("/") // handles all requests
 public class ProjectServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
@@ -36,9 +30,6 @@ public class ProjectServlet extends HttpServlet {
         taskDAO = new TaskDAO();
     }
 
-    /**
-     * This method acts as our "router" for POST requests.
-     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
@@ -72,25 +63,18 @@ public class ProjectServlet extends HttpServlet {
         }
     }
 
-    /**
-     * This method acts as our "router" for GET requests.
-     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
         String action = request.getServletPath();
 
-        // --- FIX FOR CSS/STATIC FILES ---
-        // If the request is for a static file, let Tomcat handle it
         if (action.startsWith("/css/") || action.startsWith("/js/") || action.startsWith("/images/")) {
             getServletContext().getNamedDispatcher("default").forward(request, response);
             return; // Stop processing
         }
-        // --- END OF FIX ---
 
         try {
             switch (action) {
-                // Project routes
                 case "/newProject":
                     showNewProjectForm(request, response);
                     break;
@@ -104,7 +88,6 @@ public class ProjectServlet extends HttpServlet {
                     listTasks(request, response);
                     break;
                 
-                // Task routes
                 case "/newTask":
                     showNewTaskForm(request, response);
                     break;
@@ -116,7 +99,6 @@ public class ProjectServlet extends HttpServlet {
                     break;
                     
                 default:
-                    // By default (URL "/"), list all projects
                     listProjects(request, response);
                     break;
             }
@@ -125,12 +107,7 @@ public class ProjectServlet extends HttpServlet {
             throw new ServletException(e);
         }
     }
-    
-    // --- PROJECT HELPER METHODS ---
 
-    /**
-     * Gets the list of projects and sends them to index.jsp
-     */
     private void listProjects(HttpServletRequest request, HttpServletResponse response) 
             throws SQLException, ServletException, IOException {
         List<Project> projectList = projectDAO.getAllProjects();
@@ -139,48 +116,12 @@ public class ProjectServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-//    private void listProjects(HttpServletRequest request, HttpServletResponse response) 
-//            throws SQLException, ServletException, IOException {
-//        
-//        // Set response type to plain text so we can see exactly what happens
-//        response.setContentType("text/plain");
-//        
-//        try {
-//            // 1. Print a starting message
-//            response.getWriter().println("DEBUG: Starting to fetch projects...");
-//            
-//            // 2. Call the DAO
-//            List<Project> list = projectDAO.getAllProjects();
-//            
-//            // 3. Print the result
-//            if (list.isEmpty()) {
-//                response.getWriter().println("DEBUG: Database connected, but returned 0 projects.");
-//                response.getWriter().println("DEBUG: This means the query 'SELECT * FROM projects' found nothing.");
-//            } else {
-//                response.getWriter().println("DEBUG: SUCCESS! Found " + list.size() + " projects:");
-//                for (Project p : list) {
-//                    response.getWriter().println(" - ID: " + p.getId() + ", Name: " + p.getName());
-//                }
-//            }
-//            
-//        } catch (Exception e) {
-//            // 4. Print any errors
-//            response.getWriter().println("DEBUG: CRITICAL ERROR!");
-//            e.printStackTrace(response.getWriter());
-//        }
-//    }    
-    /**
-     * Shows the new project form (project-form.jsp)
-     */
     private void showNewProjectForm(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("project-form.jsp");
         dispatcher.forward(request, response);
     }
     
-    /**
-     * Handles the form submission for a new project
-     */
     private void insertProject(HttpServletRequest request, HttpServletResponse response) 
             throws SQLException, IOException {
         String name = request.getParameter("projectName");
@@ -188,9 +129,6 @@ public class ProjectServlet extends HttpServlet {
         response.sendRedirect("./");
     }
     
-    /**
-     * Handles the delete request for a project
-     */
     private void deleteProject(HttpServletRequest request, HttpServletResponse response) 
             throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
@@ -198,9 +136,6 @@ public class ProjectServlet extends HttpServlet {
         response.sendRedirect("./");
     }
     
-    /**
-     * Shows the edit project form (project-form.jsp) pre-filled with data
-     */
     private void showEditProjectForm(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
@@ -210,9 +145,6 @@ public class ProjectServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    /**
-     * Handles the form submission for an updated project
-     */
     private void updateProject(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
@@ -221,11 +153,6 @@ public class ProjectServlet extends HttpServlet {
         response.sendRedirect("./");
     }
 
-    // --- TASK HELPER METHODS ---
-
-    /**
-     * Gets the project AND its list of tasks and sends them to task-list.jsp
-     */
     private void listTasks(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
         int projectId = Integer.parseInt(request.getParameter("projectId"));
@@ -239,9 +166,6 @@ public class ProjectServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    /**
-     * Shows the new task form (task-form.jsp)
-     */
     private void showNewTaskForm(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         int projectId = Integer.parseInt(request.getParameter("projectId"));
@@ -250,9 +174,6 @@ public class ProjectServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    /**
-     * Handles the form submission for a new task
-     */
     private void insertTask(HttpServletRequest request, HttpServletResponse response) 
             throws SQLException, IOException {
         int projectId = Integer.parseInt(request.getParameter("projectId"));
@@ -272,9 +193,6 @@ public class ProjectServlet extends HttpServlet {
         response.sendRedirect("listTasks?projectId=" + projectId);
     }
 
-    /**
-     * Handles the delete request for a task
-     */
     private void deleteTask(HttpServletRequest request, HttpServletResponse response) 
             throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
@@ -283,9 +201,6 @@ public class ProjectServlet extends HttpServlet {
         response.sendRedirect("listTasks?projectId=" + projectId);
     }
     
-    /**
-     * Shows the edit task form (task-form.jsp) pre-filled with data
-     */
     private void showEditTaskForm(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
@@ -295,9 +210,7 @@ public class ProjectServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    /**
-     * Handles the form submission for an updated task
-     */
+
     private void updateTask(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
         

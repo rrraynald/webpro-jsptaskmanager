@@ -136,9 +136,7 @@ public class ProjectDAO {
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
-            // Set the new name (parameter 1)
             stmt.setString(1, name);
-            // Set the ID (parameter 2)
             stmt.setInt(2, id);
             
             stmt.executeUpdate();
@@ -147,6 +145,4 @@ public class ProjectDAO {
             e.printStackTrace();
         }
     }
-
-
 }

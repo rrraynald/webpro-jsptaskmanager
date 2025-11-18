@@ -44,7 +44,6 @@ a:hover {
   text-decoration: underline;
 }
 
-/* --- Table Styles --- */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -84,7 +83,6 @@ table td a.delete:hover {
   color: #a71d2a;
 }
 
-/* --- Button & Link Styles --- */
 .button-add {
   display: inline-block;
   background-color: #28a745;
@@ -102,7 +100,6 @@ table td a.delete:hover {
   text-decoration: none;
 }
 
-/* --- Form Styles --- */
 form {
   display: grid;
   grid-template-columns: 1fr;
@@ -128,7 +125,7 @@ form select {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  box-sizing: border-box; /* Important */
+  box-sizing: border-box;
   font-size: 1rem;
 }
 
@@ -142,7 +139,7 @@ form button[type="submit"] {
   font-size: 1.1rem;
   font-weight: 500;
   transition: background-color 0.2s;
-  justify-self: start; /* Align button to the left */
+  justify-self: start;
 }
 
 form button[type="submit"]:hover {

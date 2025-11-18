@@ -1,15 +1,10 @@
 package com.raynald.model;
 
-import java.sql.Date;       // Use java.sql.Date for due_date
-import java.sql.Timestamp; // Use java.sql.Timestamp for created_at
+import java.sql.Date;
+import java.sql.Timestamp;
 
-/**
- * This is the Model class (JavaBean) for a Task.
- * It holds data for a single task.
- */
 public class Task {
 
-    // --- Fields ---
     private int id;
     private int projectId;
     private String title;
@@ -18,8 +13,6 @@ public class Task {
     private Date dueDate;
     private Timestamp createdAt;
 
-    // --- Constructor ---
-    // We'll create a full constructor for when we fetch data
     public Task(int id, int projectId, String title, String status, String priority, Date dueDate, Timestamp createdAt) {
         this.id = id;
         this.projectId = projectId;
@@ -30,7 +23,6 @@ public class Task {
         this.createdAt = createdAt;
     }
     
-    // We'll also create a simpler constructor for when we create a new task
     public Task(int projectId, String title, String status, String priority, Date dueDate) {
         this.projectId = projectId;
         this.title = title;
@@ -38,10 +30,6 @@ public class Task {
         this.priority = priority;
         this.dueDate = dueDate;
     }
-
-
-    // --- Getters and Setters ---
-    // Standard methods to access the private fields
 
     public int getId() {
         return id;
